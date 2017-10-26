@@ -1,0 +1,17 @@
+{
+  "name": "packagecloud.js",
+  "version": "0.1.0",
+  "description": "JavaScript API client for packagecloud.io",
+  "main": "src/packagecloud.js",
+  "repository": "https://github.com/computology/packagecloud.js.git",
+  "author": "Armando Canals",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "rollup": "^0.50.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "window": "^4.2.1"
+  }
+}
