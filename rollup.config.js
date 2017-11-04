@@ -9,7 +9,7 @@ export default {
   input: 'src/main.js',
   output: {
     file: 'dist/packagecloud.browser.js',
-    format: 'cjs'
+    format: 'iife'
   },
   plugins: [resolve({browser: true}), replace( {
               include: '**/node_modules/formidable/lib/**',
