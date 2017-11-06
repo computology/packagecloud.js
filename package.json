@@ -8,7 +8,8 @@
   "scripts": {
     "test": "jest --coverage",
     "build": "rollup -c ;rollup --config rollup.node.config.js",
-    "prepublish": "npm test && npm run build"
+    "prepublish": "npm test && npm run build",
+    "debug": "node --inspect-brk ./node_modules/.bin/jest -i"
   },
   "devDependencies": {
     "babel-jest": "^21.2.0",
