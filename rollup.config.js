@@ -23,9 +23,9 @@ export default [{
   ]
 }, {
   input: 'src/main.js',
-  output:     {
+  output: {
     file: 'dist/packagecloud.js',
-    format: 'cjs',
-    external: ['superagent']
-  }
+    format: 'cjs'
+  },
+  external: ['superagent']
 }];
