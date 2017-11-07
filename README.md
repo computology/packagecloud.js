@@ -1,3 +1,5 @@
+[![Build status](https://badge.buildkite.com/9791e408006343258cbdf3e383b6e6f5f662256438604923ae.svg)](https://buildkite.com/packagecloud/packagecloud-dot-js)
+
 ## packagecloud.js
 
 JavaScript library for communicating with the [packagecloud.io](https://packagecloud.io) API.
