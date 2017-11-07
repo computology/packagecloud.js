@@ -61,7 +61,7 @@ export default function(token, baseUrl) {
   }
 
   /**
-   * Get the list of repositories for the authenticated user.
+   * Get a list of repositories for the authenticated user.
    * @return {Promise} The superagent promise object.
    */
   this.getRepositories = function() {
