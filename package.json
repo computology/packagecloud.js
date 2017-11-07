@@ -10,7 +10,7 @@
     "build": "rollup -c ;rollup --config rollup.node.config.js",
     "prepublish": "npm test && npm run build",
     "debug": "node --inspect-brk ./node_modules/.bin/jest -i",
-    "docs": "jsdoc --readme ./README ./src/packagecloud.js"
+    "docs": "jsdoc --readme ./README.md ./src/packagecloud.js"
   },
   "devDependencies": {
     "babel-jest": "^21.2.0",
