@@ -20,7 +20,7 @@ export default function(token, baseUrl) {
     throw new Error("packagecloud API token is required");
   }
 
-  this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : null;
+  this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : "";
   this.isBrowser = request.isBrowser = new Function("try {return this===window;}catch(e){ return false;}")();
   this.token = token;
 
