@@ -1,6 +1,6 @@
-import PackageCloud from "./packagecloud";
+import packagecloud from "./packagecloud";
 if(new Function("try {return this===window;}catch(e){ return false;}")()) {
-  window.PackageCloud = PackageCloud;  
+  window.packagecloud = packagecloud;
 } else {
-  module.exports = PackageCloud;  
+  module.exports = packagecloud;
 }

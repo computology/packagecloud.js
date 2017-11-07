@@ -1,4 +1,4 @@
-/** PackageCloud API JavaScript Client.
+/** JavaScript Client for the packagecloud API.
  * @module src/packagecloud
  * @param {string} token - a packagecloud API Token.
  * @param {string} baseUrl - URL to the packagecloud API.
