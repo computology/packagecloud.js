@@ -58,4 +58,4 @@ pc.getDistribution().then(success)
 
 Copyright (c) 2017 Computology, LLC
 
-See LICENSE.txt for details.
+See LICENSE file for details.
