@@ -20,17 +20,17 @@ JavaScript library for communicating with the [packagecloud.io](https://packagec
 
 ## Installation
 
-  ```
+  ```bash
 npm install packagecloud
   ```
   or
-  ```
+  ```bash
 yarn add packagecloud
   ```
 
 ## Creating a Client
 In the browser:
-```
+```javascript
 // i.e., Rails with a sprockets manifest
 //= require packagecloud/dist/packagecloud.browser.js
 ...
@@ -38,7 +38,7 @@ In the browser:
 var pc = new PackageCloud('your_api_token', 'https://packagecloud.io');
 ```
 Or in a NodeJS environment:
-```
+```javascript
 import PackageCloud from "packagecloud";
 const pc = new PackageCloud('your_api_token', 'https://packagecloud.io');
 ```
@@ -49,11 +49,14 @@ Every client API method call returns a ```Promise``` object, which is "thenable"
 For example, the following code will fetch a list of distributions and return a
 promise object that allows us to define what happens on success, or failure.
 
-```
+```javascript
 var success = function(data) {
   console.log("success!", data);
 }
-pc.getDistribution().then(success)
+var error = function(err) {
+  console.log("error!", error);
+}
+pc.getDistribution().then(success, error)
 ```
 
 ## Copyright
