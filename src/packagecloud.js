@@ -1,71 +1,56 @@
-import request from 'superagent';
-
-/**
- * PackageCloud API JavaScript Client.
+/** PackageCloud API JavaScript Client.
  * @module src/packagecloud
  * @param {string} token - a packagecloud API Token.
  * @param {string} baseUrl - URL to the packagecloud API.
  */
+import request from 'superagent';
+import createRepository from './modules/createRepository';
+import getRepository from './modules/getRepository';
+import getRepositories from './modules/getRepositories';
+import getDistributions from './modules/getDistributions';
+import listPackages from './modules/listPackages';
+import deletePackage from './modules/deletePackage';
+import uploadPackage from './modules/uploadPackage';
+import showPackage from './modules/showPackage';
+import showVersionedPackage from './modules/showVersionedPackage';
+
 export default function(token, baseUrl) {
 
   if(!token) {
     throw new Error("packagecloud API token is required");
   }
 
-  var baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : null;
-  
+  this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : null;
+  this.isBrowser = request.isBrowser = new Function("try {return this===window;}catch(e){ return false;}")();
   this.token = token;
-  this.isBrowser = new Function("try {return this===window;}catch(e){ return false;}")();
-  this.baseUrl = baseUrl;
 
-  if (this.isBrowser && !this.baseUrl) {
-    baseUrl = this.baseUrl = window.location.origin;
-  }
-
-  /**
-   * Create a repository.
+  /** Create a repository.
    * @param {Object} options - Repository options.
    * @param {string} options.name - The repository name.
    * @return {Promise} The superagent promise object.
    */
   this.createRepository = function(options) {
-    if(!options || !options.name) {
-      throw new Error("This method expects an object parameter with a name and value - {name: 'new-repo'}");
-    }
-
-    var privacy = options.privacy ? true : false;
-    var body = JSON.stringify({'repository': {'name': options.name,
-                                              'private': privacy }});
-    return request.post(baseUrl + "/api/v1/repos.json")
+    return new createRepository(request, options)
       .type('json')
-      .auth(token, '')
-      .send(body);
+      .auth(token, '');
   }
 
-  /**
-   * Get repository information.
+  /** Get repository information.
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @return {Promise} The superagent promise object.
    */
   this.getRepository = function(options) {
-    if(!options.repo || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo'}");
-    }
-
-    var url = [baseUrl + "/api/v1/repos", options.repo + ".json"].join("/");
-
-    return request.get(url)
+    return new getRepository(request, options)
       .accept('json')
       .auth(token, '');
   }
 
-  /**
-   * Get a list of repositories for the authenticated user.
+  /** Get a list of repositories for the authenticated user.
    * @return {Promise} The superagent promise object.
    */
   this.getRepositories = function() {
-    return request.get(baseUrl + "/api/v1/repos.json")
+    return new getRepositories(request)
       .accept('json')
       .auth(token, '');
   }
@@ -75,7 +60,7 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.getDistributions = function() {
-    return request.get(baseUrl + "/api/v1/distributions.json")
+    return new getDistributions(request)
       .accept('json')
       .auth(token, '');
   }
@@ -87,23 +72,19 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.listPackages = function(options) {
-    if(!options || !options.repo || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo'}");
-    }
-    var url = [baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
-    return request.get(url)
-      .accept('json')
+    return new listPackages(request, options)
+      .accept("json")
       .auth(token, '');
   }
 
   /**
    * Delete a package.
-   * @param {string} URL of the package to delete. NOTE: URL is returned from showPackage and showVersionedPackage methods.
+   * @param {string} URL - URL of the package to delete. NOTE: URL is returned from showPackage and showVersionedPackage methods.
    * @return {Promise} The superagent promise object.
    */
   this.deletePackage = function(url) {
-    return request.delete(url)
-      .accept('json')
+    return new deletePackage(request, url)
+      .accept("json")
       .auth(token, '');
   }
 
@@ -115,26 +96,12 @@ export default function(token, baseUrl) {
    * @param {string} options.filename - The filename of the package.
    * @return {Promise} The superagent promise object.
    */
-  this.putPackage = function(options) {
-    if(!options.repo || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - user/repo");
-    }
-    if(!options.file) {
-      throw new Error("Expects an object with string file path (node) or File (browser) as a value");
-    }
-    if(!options.filename) {
-      throw new Error("Expects a filename");
-    }
-
-    var url = [baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
-
-    if(this.isBrowser) {
-      return browserUpload(url, options);
-    } else {
-      return serverUpload(url, options);
-    }
+  this.uploadPackage = function(options) {
+    return new uploadPackage(request, options)
+      .accept("json")
+      .auth(token, '');
   }
-
+  
   /**
    * Get package information for Debian and RPM packages.
    * @param {Object} options - Repository options.
@@ -149,38 +116,7 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.showPackage = function(options) {
-    if(!options) {
-      throw new Error("show package requires the following options: type, distro, distroVersion, name, arch, version");
-    }
-    
-    if(!options.repo || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo'}");
-    }
-
-    const RequiredFields = ['type', 'distro', 'distroVersion', 'name', 'arch', 'version'];
-
-    RequiredFields.forEach(function(field) {
-      if (!(field in options)) {
-        throw new Error("missing field: " + field)
-      } 
-    });
-    var packageType = options.type,
-        distro = options.distro,
-        distroVersion = options.distroVersion,
-        packageName = options.name,
-        arch = options.arch,
-        pkgVersion = options.version,
-        release = options.release;
-
-    if(release) {
-      release = release + ".json";
-    } else {
-      pkgVersion = pkgVersion + ".json";
-    }
-    var url = [baseUrl + "/api/v1/repos", options.repo, "package", packageType, distro, options.version,
-               packageName, arch, pkgVersion, release].join("/").replace(/\/+$/, ""); // remove trailing slash
-
-    return request.get(url)
+    return new showPackage(request, options)
       .accept('json')
       .auth(token, '');
   }
@@ -195,23 +131,7 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.showVersionedPackage = function(options) {
-    if(!options || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
-    }
-    const RequiredFields = ['name', 'version'];
-
-    RequiredFields.forEach(function(field) {
-      if (!(field in options)) {
-        throw new Error("missing field: " + field)
-      } 
-    });
-    var repo = options.repo,
-        name = options.name,
-        version = options.version,
-        packageType = versionedPackageString(options.type);
-    var url = [baseUrl + "/api/v1/repos", repo, "package", packageType, name, version + ".json"].join("/");
-
-    return request.get(url)
+    return new showVersionedPackage(request, options)
       .accept('json')
       .auth(token, '');
   }
@@ -262,52 +182,5 @@ export default function(token, baseUrl) {
     }
     options.type = "java";
     return this.showVersionedPackage(options);
-  }
-
-  var versionedPackageString = function(string) {
-    switch (string) {
-    case "java":
-      return "java/maven2";
-    case "gem":
-      return string;
-    case "python":
-      return string;
-    }
-  }
-
-  var browserUpload = function(url, options) {
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-      var blob = new Blob([this.result], {type: 'application/octet-stream'});
-      var fields = {}
-
-      if(options.dist) {
-        fields['package[distro_version_id]'] = options.dist
-      }
-
-      request.post(url)
-        .auth(token, '')
-        .field(fields)
-        .attach('package[package_file]', blob, {filename: options.filename});
-    };
-
-    reader.readAsArrayBuffer(options.file);
-
-    return request.post(url)
-      .auth(token, '');
-  }
-
-  var serverUpload = function(url, options) {
-    var fields = {};
-
-    if(options.dist) {
-      fields['package[distro_version_id]'] = options.dist
-    }
-
-    return request.post(url)
-      .auth(token, '')
-      .field(fields)
-      .attach('package[package_file]', options.file, {filename: options.filename});
   }
 }

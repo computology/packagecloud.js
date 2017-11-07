@@ -1,4 +1,6 @@
 import PackageCloud from './packagecloud';
+import request from '../__mocks__/superagent.js';
+
 const pc = new PackageCloud('test_token');
 
 describe("Initialization Actions", () => {
@@ -242,21 +244,24 @@ describe('Deleting a package', () => {
 
 describe("Uploading a package", () => {
   describe("From a browser environment", () => {
+    beforeEach(() => {
+      request.isBrowser = true;
+    });
     it('should throw an error if repo name is malformatted', () => {
       expect(() => {
-        pc.putPackage({repo: "test"});
+        pc.uploadPackage({repo: "test"});
       }).toThrowError("Repository path must be in the fully-qualified format - user/repo");
     });
 
     it('should throw an error if file is missing', () => {
       expect(() => {
-        pc.putPackage({repo: "test/repo", file: null});
+        pc.uploadPackage({repo: "test/repo", file: null});
       }).toThrowError("Expects an object with string file path (node) or File (browser) as a value");
     });
 
     it('should throw an error if filename is missing', () => {
       expect(() => {
-        pc.putPackage({repo: "test/repo", file: new Blob()});
+        pc.uploadPackage({repo: "test/repo", file: new Blob()});
       }).toThrowError("Expects a filename");
     });
 
@@ -266,7 +271,7 @@ describe("Uploading a package", () => {
         expect(data).toBeDefined();
       }
 
-      return pc.putPackage({repo: "saldo/test", file: new Blob(), filename: 'packagecloud-test-gem'}).then(resolve);
+      return pc.uploadPackage({repo: "saldo/test", file: new Blob(), filename: 'packagecloud-test-gem'}).then(resolve);
     });
 
     it('should upload a package with a dist', () => {
@@ -275,18 +280,18 @@ describe("Uploading a package", () => {
         expect(data).toBeDefined();
       }
 
-      return pc.putPackage({repo: "saldo/test", file: new Blob(), filename: 'packagecloud-test-py', dist: 1}).then(resolve);
+      return pc.uploadPackage({repo: "saldo/test", file: new Blob(), filename: 'packagecloud-test-py', dist: 1}).then(resolve);
     });
   });
 
   describe("From a Node environment", () => {
     beforeEach(() => {
-      pc.isBrowser = false;
-    })
+      request.isBrowser = false;
+    });
 
     it('should throw an error if file is missing', () => {
       expect(() => {
-        pc.putPackage({repo: "test/repo", file: null});
+        pc.uploadPackage({repo: "test/repo", file: null});
       }).toThrowError("Expects an object with string file path (node) or File (browser) as a value");
     });
 
@@ -297,7 +302,7 @@ describe("Uploading a package", () => {
         expect(data).toBeDefined();
       }
 
-      return pc.putPackage({repo: "saldo/test", file: "./packagecloud-test.gem", filename: 'packagecloud-test-gem'}).then(resolve);
+      return pc.uploadPackage({repo: "saldo/test", file: "./packagecloud-test.gem", filename: 'packagecloud-test-gem'}).then(resolve);
     });
 
     it('should upload a package with a dist', () => {
@@ -306,7 +311,7 @@ describe("Uploading a package", () => {
         expect(data).toBeDefined();
       }
 
-      return pc.putPackage({repo: "saldo/test", file: "./packagecloud-test-py.tar.gz", filename: 'packagecloud-test-py', dist: 1}).then(resolve);
+      return pc.uploadPackage({repo: "saldo/test", file: "./packagecloud-test-py.tar.gz", filename: 'packagecloud-test-py', dist: 1}).then(resolve);
     });
   });
 });
