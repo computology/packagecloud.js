@@ -159,9 +159,6 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.showGemPackage = function(options) {
-    if(!options || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
-    }
     options.type = "gem";
     return this.showVersionedPackage(options);
   }
@@ -175,9 +172,6 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.showPythonPackage = function(options) {
-    if(!options || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
-    }
     options.type = "python";
     return this.showVersionedPackage(options);
   }
@@ -191,9 +185,6 @@ export default function(token, baseUrl) {
    * @return {Promise} The superagent promise object.
    */
   this.showJavaPackage = function(options) {
-    if(!options || options.repo.split("/").length < 2) {
-      throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
-    }
     options.type = "java";
     return this.showVersionedPackage(options);
   }
