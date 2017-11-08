@@ -1,2 +1,2 @@
 import packagecloud from "./packagecloud";
-module.exports = packagecloud;
+window.packagecloud = packagecloud;

@@ -6,7 +6,7 @@ import nodeGlobals from "rollup-plugin-node-globals"
 import json        from "rollup-plugin-json"
 
 export default [{
-  input: 'src/main.js',
+  input: 'src/main.browser.js',
   output: {
     file: 'dist/packagecloud.browser.js',
     format: 'iife'
