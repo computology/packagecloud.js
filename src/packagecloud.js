@@ -1,8 +1,3 @@
-/** JavaScript Client for the packagecloud API.
- * @module src/packagecloud
- * @param {string} token - a packagecloud API Token.
- * @param {string} baseUrl - URL to the packagecloud API.
- */
 import request from 'superagent';
 import createRepository from './modules/createRepository';
 import showRepository from './modules/showRepository';
@@ -15,24 +10,32 @@ import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
 
-export default function(token, baseUrl) {
+/** JavaScript Client for the packagecloud API.
+ */
+export default class {
+  /** Create the API Client with credentials
+   * @class
+   * @param {string} token - a packagecloud API Token.
+   * @param {string} baseUrl - URL to the packagecloud API.
+   */
+  constructor(token, baseUrl) {
+    if(!token) {
+      throw new Error("packagecloud API token is required");
+    }
 
-  if(!token) {
-    throw new Error("packagecloud API token is required");
+    this.token = token;
+    this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : "";
   }
-
-  this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : "";
-  this.token = token;
 
   /** Create a repository.
    * @param {Object} options - Repository options.
    * @param {string} options.name - The repository name.
    * @return {Promise} The superagent promise object.
    */
-  this.createRepository = function(options) {
-    return new createRepository(request, options)
+  createRepository(options) {
+    return createRepository(request, options)
       .type('json')
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /** Show repository information.
@@ -40,29 +43,29 @@ export default function(token, baseUrl) {
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @return {Promise} The superagent promise object.
    */
-  this.showRepository = function(options) {
-    return new showRepository(request, options)
+  showRepository(options) {
+    return showRepository(request, options)
       .accept('json')
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /** Get a list of repositories for the authenticated user.
    * @return {Promise} The superagent promise object.
    */
-  this.getRepositories = function() {
-    return new getRepositories(request)
+  getRepositories() {
+    return getRepositories(request)
       .accept('json')
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /**
    * Get a list of supported distributions on packagecloud.
    * @return {Promise} The superagent promise object.
    */
-  this.getDistributions = function() {
-    return new getDistributions(request)
+  getDistributions() {
+    return getDistributions(request)
       .accept('json')
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /**
@@ -71,10 +74,10 @@ export default function(token, baseUrl) {
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @return {Promise} The superagent promise object.
    */
-  this.listPackages = function(options) {
-    return new listPackages(request, options)
+  listPackages(options) {
+    return listPackages(request, options)
       .accept("json")
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /**
@@ -82,10 +85,10 @@ export default function(token, baseUrl) {
    * @param {string} URL - URL of the package to delete. NOTE: URL is returned from showPackage and showVersionedPackage methods.
    * @return {Promise} The superagent promise object.
    */
-  this.deletePackage = function(url) {
-    return new deletePackage(request, url)
+  deletePackage(url) {
+    return deletePackage(request, url)
       .accept("json")
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /**
@@ -96,10 +99,10 @@ export default function(token, baseUrl) {
    * @param {string} options.filename - The filename of the package.
    * @return {Promise} The superagent promise object.
    */
-  this.uploadPackage = function(options) {
-    return new uploadPackage(request, options)
+  uploadPackage(options) {
+    return uploadPackage(request, options)
       .accept("json")
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /**
@@ -110,10 +113,10 @@ export default function(token, baseUrl) {
    * @param {string} options.filename - The filename of the package.
    * @return {Promise} The superagent promise object.
    */
-  this.uploadPackageFromBrowser = function(options) {
-    return new uploadPackageFromBrowser(request, options)
+  uploadPackageFromBrowser(options) {
+    return uploadPackageFromBrowser(request, options)
       .accept("json")
-      .auth(token, '');
+      .auth(this.token, '');
   }
   
   /**
@@ -129,10 +132,10 @@ export default function(token, baseUrl) {
    * @param {string} options.release - &lt;Optional&gt; The release, if the package contains one.
    * @return {Promise} The superagent promise object.
    */
-  this.showPackage = function(options) {
-    return new showPackage(request, options)
+  showPackage(options) {
+    return showPackage(request, options)
       .accept('json')
-      .auth(token, '');
+      .auth(this.token, '');
   }
   
   /**
@@ -144,10 +147,10 @@ export default function(token, baseUrl) {
    * @param {string} options.version - The version number of the package.
    * @return {Promise} The superagent promise object.
    */
-  this.showVersionedPackage = function(options) {
-    return new showVersionedPackage(request, options)
+  showVersionedPackage(options) {
+    return showVersionedPackage(request, options)
       .accept('json')
-      .auth(token, '');
+      .auth(this.token, '');
   }
 
   /**
@@ -158,7 +161,7 @@ export default function(token, baseUrl) {
    * @param {string} options.version - The version number of the gem package.
    * @return {Promise} The superagent promise object.
    */
-  this.showGemPackage = function(options) {
+  showGemPackage(options) {
     options.type = "gem";
     return this.showVersionedPackage(options);
   }
@@ -171,7 +174,7 @@ export default function(token, baseUrl) {
    * @param {string} options.version - The version number of the python package.
    * @return {Promise} The superagent promise object.
    */
-  this.showPythonPackage = function(options) {
+  showPythonPackage(options) {
     options.type = "python";
     return this.showVersionedPackage(options);
   }
@@ -184,7 +187,7 @@ export default function(token, baseUrl) {
    * @param {string} options.version - The version number of the gem package.
    * @return {Promise} The superagent promise object.
    */
-  this.showJavaPackage = function(options) {
+  showJavaPackage(options) {
     options.type = "java";
     return this.showVersionedPackage(options);
   }
