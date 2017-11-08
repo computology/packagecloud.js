@@ -1,4 +1,4 @@
-import PackageCloud from './packagecloud';
+import PackageCloud from '../packagecloud';
 
 describe("Initialization Actions", () => {
   it('should throw an error when initializing with no API token', function() {

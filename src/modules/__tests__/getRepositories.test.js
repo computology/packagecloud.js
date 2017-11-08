@@ -1,4 +1,4 @@
-import PackageCloud from '../packagecloud';
+import PackageCloud from '../../packagecloud';
 const pc = new PackageCloud('test_token');
 
 describe('Show a list of repositories', () => {

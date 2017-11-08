@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import PackageCloud from '../packagecloud';
+import PackageCloud from '../../packagecloud';
 const pc = new PackageCloud('test_token');
 
 describe("Uploading a package from a NodeJS environment", () => {
