@@ -1,5 +1,4 @@
 import PackageCloud from './packagecloud';
-const pc = new PackageCloud('test_token');
 
 describe("Initialization Actions", () => {
   it('should throw an error when initializing with no API token', function() {

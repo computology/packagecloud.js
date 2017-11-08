@@ -5,7 +5,7 @@
  */
 import request from 'superagent';
 import createRepository from './modules/createRepository';
-import getRepository from './modules/getRepository';
+import showRepository from './modules/showRepository';
 import getRepositories from './modules/getRepositories';
 import getDistributions from './modules/getDistributions';
 import listPackages from './modules/listPackages';
@@ -35,13 +35,13 @@ export default function(token, baseUrl) {
       .auth(token, '');
   }
 
-  /** Get repository information.
+  /** Show repository information.
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @return {Promise} The superagent promise object.
    */
-  this.getRepository = function(options) {
-    return new getRepository(request, options)
+  this.showRepository = function(options) {
+    return new showRepository(request, options)
       .accept('json')
       .auth(token, '');
   }

@@ -1,4 +1,4 @@
-/** Get repository information.
+/** Show repository information.
  * @module src/modules/getRepository
  * @param {Object} superagent request object.
  * @param {Object} options - Repository options.
