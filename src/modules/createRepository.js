@@ -5,7 +5,7 @@
  * @param {string} options.name - The repository name.
  * @return {Promise} The superagent promise object.
  */
-export default function(request, options) {
+export default (request, options) => {
   if(!options || !options.name) {
     throw new Error("This method expects an object parameter with a name and value - {name: 'new-repo'}");
   }

@@ -5,6 +5,6 @@
  * @param {string} URL - URL of the package to delete. NOTE: URL is returned from showPackage and showVersionedPackage methods.
  * @return {Promise} The superagent promise object.
  */
-export default function(request, url) {
+export default (request, url) => {
   return request.delete(url);
 }

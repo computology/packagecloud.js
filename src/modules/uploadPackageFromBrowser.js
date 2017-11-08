@@ -7,7 +7,7 @@
  * @param {string} options.filename - The filename of the package.
  * @return {Promise} The superagent promise object.
  */
-export default function(request, options) {
+export default (request, options) => {
   if(!options || !options.repo || options.repo.split("/").length < 2) {
     throw new Error("Repository path must be in the fully-qualified format - user/repo");
   }

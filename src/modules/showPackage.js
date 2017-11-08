@@ -13,7 +13,7 @@
  * @param {string} options.release - &lt;Optional&gt; The release, if the package contains one.
  * @return {Promise} The superagent promise object.
  */
-export default function(request, options) {
+export default (request, options) => {
   if(!options) {
     throw new Error("show package requires the following options: type, distro, distroVersion, name, arch, version");
   }

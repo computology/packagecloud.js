@@ -7,7 +7,7 @@
  * @param {string} options.filename - The filename of the package.
  * @return {Promise} The superagent promise object.
  */
-export default function(request, options) {
+export default (request, options) => {
   if ((new Function("try {return this===window;}catch(e){ return false;}")())) {
     throw new Error("Attempting to upload a package in a browser environment. Use uploadPackageFromBrowser method instead.");
   }
