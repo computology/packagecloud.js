@@ -8,10 +8,6 @@
  * @return {Promise} The superagent promise object.
  */
 export default function(request, options) {
-  if ((new Function("try {return this===window;}catch(e){ return false;}")())) {
-    throw new Error("Attempting to upload a package in a browser environment. Use uploadPackageFromBrowser method instead.");
-  }
-
   if(!options || !options.repo || options.repo.split("/").length < 2) {
     throw new Error("Repository path must be in the fully-qualified format - user/repo");
   }
@@ -24,24 +20,32 @@ export default function(request, options) {
 
   var url = [request.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
 
-
-  return privateMethods.serverUpload(url, request, options);
+  return privateMethods.browserUpload(url, request, options);
 }
 
 const privateMethods = {
   /**
-   * Upload package from a NodeJS environment.
+   * Upload package from a browser environment.
    * @private
    */
-  serverUpload(url, request, options) {
-    var fields = {};
+  browserUpload(url, request, options) {
+    var reader = new FileReader();
 
-    if(options.dist) {
-      fields['package[distro_version_id]'] = options.dist
-    }
+    reader.onload = function(e) {
+      var blob = new Blob([this.result], {type: 'application/octet-stream'});
+      var fields = {}
 
-    return request.post(url)
-      .field(fields)
-      .attach('package[package_file]', options.file, {filename: options.filename});
+      if(options.dist) {
+        fields['package[distro_version_id]'] = options.dist
+      }
+
+      request.post(url)
+        .field(fields)
+        .attach('package[package_file]', blob, {filename: options.filename});
+    };
+
+    reader.readAsArrayBuffer(options.file);
+
+    return request.post(url);
   }
 }

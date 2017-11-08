@@ -11,6 +11,7 @@ import getDistributions from './modules/getDistributions';
 import listPackages from './modules/listPackages';
 import deletePackage from './modules/deletePackage';
 import uploadPackage from './modules/uploadPackage';
+import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
 
@@ -21,7 +22,6 @@ export default function(token, baseUrl) {
   }
 
   this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : "";
-  this.isBrowser = request.isBrowser = new Function("try {return this===window;}catch(e){ return false;}")();
   this.token = token;
 
   /** Create a repository.
@@ -98,6 +98,20 @@ export default function(token, baseUrl) {
    */
   this.uploadPackage = function(options) {
     return new uploadPackage(request, options)
+      .accept("json")
+      .auth(token, '');
+  }
+
+  /**
+   * Upload a package from the browser.
+   * @param {Object} options - Repository options.
+   * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
+   * @param {string} options.file - The file to upload, must be a File object (browser). Buffer or ./path/to/file (NodeJS).
+   * @param {string} options.filename - The filename of the package.
+   * @return {Promise} The superagent promise object.
+   */
+  this.uploadPackageFromBrowser = function(options) {
+    return new uploadPackageFromBrowser(request, options)
       .accept("json")
       .auth(token, '');
   }
