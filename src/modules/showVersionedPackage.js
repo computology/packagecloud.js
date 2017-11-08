@@ -10,7 +10,6 @@
  * @return {Promise} The superagent promise object.
  */
 export default function(request, options) {
-  debugger;
   if(!options || options.repo.split("/").length < 2) {
     throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
   }
