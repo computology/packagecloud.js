@@ -6,7 +6,7 @@
   "author": "Armando Canals",
   "license": "MIT",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --colors",
     "build": "rollup -c",
     "prepublish": "npm test && npm run build",
     "debug": "node --inspect-brk ./node_modules/.bin/jest -i",
