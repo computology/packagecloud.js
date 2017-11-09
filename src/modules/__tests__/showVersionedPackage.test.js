@@ -8,8 +8,26 @@ describe("Package details", () => {
         pc.showVersionedPackage();
       }).toThrowError("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
     });
+
+    it('should throw an error if type is missing', () => {
+      expect(() => {
+        pc.showVersionedPackage({repo:"saldo/test", name: "packagecloud-test-gem", version: "0.1.0"});
+      }).toThrowError("missing field: type");
+    });
+
+    it('should throw an error if name is missing', () => {
+      expect(() => {
+        pc.showVersionedPackage({repo: "saldo/test", type: "gem"});
+      }).toThrowError("missing field: name");
+    });
+
+    it('should throw an error if version is missing', () => {
+      expect(() => {
+        pc.showVersionedPackage({repo: "saldo/test", type: "gem", name:"packagecloud-test-gem"});
+      }).toThrowError("missing field: version");
+    });
   });
-  
+
   describe('Gem package details', () => {
     it('should throw an error if repo path is malformatted', () => {
       expect(() => {
@@ -17,11 +35,6 @@ describe("Package details", () => {
       }).toThrowError("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
     });
 
-    it('should throw an error if required field (name) is missing', () => {
-      expect(() => {
-        pc.showGemPackage({repo: "saldo/test"})
-      }).toThrowError("missing field: name");
-    });
     
     it('should return versioned package details for a gem', () => {
       expect.assertions(1);

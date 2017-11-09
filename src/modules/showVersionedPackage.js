@@ -13,7 +13,7 @@ export default (request, options) => {
   if(!options || options.repo.split("/").length < 2) {
     throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo', ...}");
   }
-  const RequiredFields = ['name', 'version'];
+  const RequiredFields = ['type', 'name', 'version'];
 
   RequiredFields.forEach(function(field) {
     if (!(field in options)) {
