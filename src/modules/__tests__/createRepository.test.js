@@ -5,7 +5,7 @@ describe("Creating a Repository", () => {
   it('should throw an error if repo name is missing in options', () => {
     expect(() => {
       pc.createRepository()
-    }).toThrowError("This method expects an object parameter with a name and value - {name: 'new-repo'}");
+    }).toThrowError("missing field: name");
   });
 
   it('should create a private repository', () => {

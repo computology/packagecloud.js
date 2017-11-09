@@ -5,7 +5,13 @@ describe("Show Repository Details", () => {
   it('should throw an error if repo name is missing in options', () => {
     expect(() => {
       pc.showRepository({})
-    }).toThrowError("Repository path must be in the fully-qualified format - {repo: 'user/repo'}");
+    }).toThrowError("missing field: repo");
+  });
+  
+  it('should throw an error if repo name is malformatted', () => {
+    expect(() => {
+      pc.showRepository({repo: "saldo"})
+    }).toThrowError("The repo field must be in the format: username/reponame");
   });
 
   it('should return repository information', () => {

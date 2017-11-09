@@ -1,3 +1,5 @@
+import ValidateOptions from './validateOptions';
+
 /** Create a repository.
  * @module src/modules/createRepository
  * @param {Object} superagent request object.
@@ -6,15 +8,15 @@
  * @return {Promise} The superagent promise object.
  */
 export default (request, options) => {
-  if(!options || !options.name) {
-    throw new Error("This method expects an object parameter with a name and value - {name: 'new-repo'}");
-  }
+
+  ValidateOptions(options, ['name']);
 
   var privacy = options.privacy ? true : false;
   var name = options.name;
-
   var body = JSON.stringify({'repository': {'name': name,
                                             'private': privacy }});
-  return request.post(request.baseUrl + "/api/v1/repos.json")
+
+  return request
+    .post(options.baseUrl + "/api/v1/repos.json")
     .send(body);
 }

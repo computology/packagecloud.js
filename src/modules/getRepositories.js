@@ -3,6 +3,6 @@
  * @param {Object} superagent request object.
  * @return {Promise} The superagent promise object.
  */
-export default (request) => {
-  return request.get(request.baseUrl + "/api/v1/repos.json");
+export default (request, options) => {
+  return request.get(options.baseUrl + "/api/v1/repos.json");
 }

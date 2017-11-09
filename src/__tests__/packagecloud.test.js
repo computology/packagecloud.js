@@ -9,6 +9,6 @@ describe("Initialization Actions", () => {
 
   it('should remove trailing slash of baseUrl', function() {
     var new_pc = new PackageCloud('test_token2', 'http://packagecloud.io/');
-    expect(new_pc.baseUrl).toBe("http://packagecloud.io");
+    expect(new_pc.requestOptions.baseUrl).toBe("http://packagecloud.io");
   });
 });

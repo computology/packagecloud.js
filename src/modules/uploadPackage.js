@@ -22,7 +22,7 @@ export default (request, options) => {
     throw new Error("Expects a filename");
   }
 
-  var url = [request.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
+  var url = [options.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
 
 
   return privateMethods.serverUpload(url, request, options);

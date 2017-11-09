@@ -1,3 +1,5 @@
+import ValidateOptions from './validateOptions';
+
 /** Show repository information.
  * @module src/modules/getRepository
  * @param {Object} superagent request object.
@@ -6,11 +8,10 @@
  * @return {Promise} The superagent promise object.
  */
 export default (request, options) => {
-  if(!options.repo || options.repo.split("/").length < 2) {
-    throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo'}");
-  }
 
-  var url = [request.baseUrl + "/api/v1/repos", options.repo + ".json"].join("/");
+  ValidateOptions(options, ['repo']);
+
+  var url = [options.baseUrl + "/api/v1/repos", options.repo + ".json"].join("/");
 
   return request.get(url);
 }

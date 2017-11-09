@@ -1,3 +1,4 @@
+import ValidateOptions from './validateOptions';
 /**
  * Get a list of packages from a repository.
  * @module src/modules/listPackages
@@ -7,10 +8,10 @@
  * @return {Promise} The superagent promise object.
  */
 export default (request, options) => {
-  if(!options || !options.repo || options.repo.split("/").length < 2) {
-    throw new Error("Repository path must be in the fully-qualified format - {repo: 'user/repo'}");
-  }
-  var url = [request.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
+
+  ValidateOptions(options, ['repo']);
+  
+  var url = [options.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
 
   return request.get(url);  
 }

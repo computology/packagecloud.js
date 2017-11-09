@@ -10,6 +10,13 @@ import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
 
+const helpers = {
+  sanitizeBaseUrl(url) {
+    if(!url) return "";
+    return url.replace(/\/+$/, "");
+  }
+}
+
 /** JavaScript Client for the packagecloud API.
  */
 export default class packagecloud {
@@ -24,7 +31,7 @@ export default class packagecloud {
     }
 
     this.token = token;
-    this.baseUrl = request.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, "") : "";
+    this.requestOptions = {baseUrl: helpers.sanitizeBaseUrl(baseUrl)};
   }
 
   /** Create a repository.
@@ -33,6 +40,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   createRepository(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return createRepository(request, options)
       .type('json')
       .auth(this.token, '');
@@ -44,6 +52,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   showRepository(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return showRepository(request, options)
       .accept('json')
       .auth(this.token, '');
@@ -53,7 +62,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   getRepositories() {
-    return getRepositories(request)
+    return getRepositories(request, this.requestOptions)
       .accept('json')
       .auth(this.token, '');
   }
@@ -63,7 +72,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   getDistributions() {
-    return getDistributions(request)
+    return getDistributions(request, this.requestOptions)
       .accept('json')
       .auth(this.token, '');
   }
@@ -75,6 +84,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   listPackages(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return listPackages(request, options)
       .accept("json")
       .auth(this.token, '');
@@ -100,6 +110,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   uploadPackage(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return uploadPackage(request, options)
       .accept("json")
       .auth(this.token, '');
@@ -114,6 +125,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   uploadPackageFromBrowser(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return uploadPackageFromBrowser(request, options)
       .accept("json")
       .auth(this.token, '');
@@ -133,6 +145,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   showPackage(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return showPackage(request, options)
       .accept('json')
       .auth(this.token, '');
@@ -148,6 +161,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   showVersionedPackage(options) {
+    options = Object.assign({}, this.requestOptions, options);
     return showVersionedPackage(request, options)
       .accept('json')
       .auth(this.token, '');
