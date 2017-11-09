@@ -1,3 +1,4 @@
+import babel       from 'rollup-plugin-babel';
 import builtins    from "rollup-plugin-node-builtins"
 import resolve     from 'rollup-plugin-node-resolve';
 import commonjs    from 'rollup-plugin-commonjs';
@@ -12,7 +13,13 @@ export default [{
     format: 'iife'
   },
   plugins: [
-    resolve({browser: true}), replace({
+    babel({"babelrc": false, exclude: "node_modules/**", "presets": [
+      [
+        "env", {
+          "modules": false // ES6 modules are handled with rollup,
+        }                  // this tells bable not to transform modules.
+      ]
+    ]}), resolve({browser: true}), replace({
       include: '**/node_modules/formidable/lib/**',
       values: { 'global.GENTLY': 'false' }
     }), builtins(),
