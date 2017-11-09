@@ -12,7 +12,7 @@ import showVersionedPackage from './modules/showVersionedPackage';
 
 /** JavaScript Client for the packagecloud API.
  */
-export default class {
+export default class packagecloud {
   /** Create the API Client with credentials
    * @class
    * @param {string} token - a packagecloud API Token.
