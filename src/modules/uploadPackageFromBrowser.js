@@ -1,6 +1,6 @@
 /**
  * Upload a package.
- * @module src/modules/uploadPackage
+ * @module src/modules/uploadPackageFromBrowser
  * @param {Object} options - Repository options.
  * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
  * @param {string} options.file - The file to upload, must be a File object (browser). Buffer or ./path/to/file (NodeJS).
