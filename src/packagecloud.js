@@ -10,7 +10,9 @@ import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
 import validateOptions from './modules/validateOptions';
-import * as version from './modules/version';
+
+import { version as VERSION } from '../package.json';
+const API_VERSION = "api/v1";
 
 export default class packagecloud {
   /** JavaScript Client for the packagecloud API.
@@ -24,8 +26,14 @@ export default class packagecloud {
     this.token = options.token;
     this.baseUrl = (options.baseUrl || 'https://packagecloud.io').replace(/\/+$/, "");
     this.requestOptions = {
-      baseUrl: `${this.baseUrl}/${version.API_VERSION}/`
+      baseUrl: `${this.baseUrl}/${API_VERSION}/`
     };
+  }
+
+  setHeaders(request) {
+    return request
+      .auth(this.token, '')
+      .set({ 'X-packagecloud-JS-Client': VERSION });
   }
 
   /** Create a repository.
@@ -35,9 +43,7 @@ export default class packagecloud {
    */
   createRepository(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return createRepository(request, opts)
-      .type('json')
-      .auth(this.token, '');
+    return this.setHeaders(createRepository(request, opts));
   }
 
   /** Show repository information.
@@ -47,18 +53,14 @@ export default class packagecloud {
    */
   showRepository(options) {
     let opts  = Object.assign({}, this.requestOptions, options);
-    return showRepository(request, opts)
-      .accept('json')
-      .auth(this.token, '');
+    return this.setHeaders(showRepository(request, opts));
   }
 
   /** Get a list of repositories for the authenticated user.
    * @return {Promise} The superagent promise object.
    */
   getRepositories() {
-    return getRepositories(request, this.requestOptions)
-      .accept('json')
-      .auth(this.token, '');
+    return this.setHeaders(getRepositories(request, this.requestOptions))
   }
 
   /**
@@ -66,9 +68,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   getDistributions() {
-    return getDistributions(request, this.requestOptions)
-      .accept('json')
-      .auth(this.token, '');
+    return this.setHeaders(getDistributions(request, this.requestOptions));
   }
 
   /**
@@ -79,9 +79,7 @@ export default class packagecloud {
    */
   listPackages(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return listPackages(request, opts)
-      .accept("json")
-      .auth(this.token, '');
+    return this.setHeaders(listPackages(request, opts));
   }
 
   /**
@@ -90,9 +88,7 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   deletePackage(url) {
-    return deletePackage(request, url)
-      .accept("json")
-      .auth(this.token, '');
+    return this.setHeaders(deletePackage(request, url));
   }
 
   /**
@@ -105,9 +101,7 @@ export default class packagecloud {
    */
   uploadPackage(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return uploadPackage(request, opts)
-      .accept("json")
-      .auth(this.token, '');
+    return this.setHeaders(uploadPackage(request, opts));
   }
 
   /**
@@ -120,9 +114,7 @@ export default class packagecloud {
    */
   uploadPackageFromBrowser(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return uploadPackageFromBrowser(request, opts)
-      .accept("json")
-      .auth(this.token, '');
+    return this.setHeaders(uploadPackageFromBrowser(request, opts));
   }
 
   /**
@@ -140,9 +132,7 @@ export default class packagecloud {
    */
   showPackage(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return showPackage(request, opts)
-      .accept('json')
-      .auth(this.token, '');
+    return this.setHeaders(showPackage(request, opts));
   }
 
   /**
@@ -156,9 +146,7 @@ export default class packagecloud {
    */
   showVersionedPackage(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return showVersionedPackage(request, opts)
-      .accept('json')
-      .auth(this.token, '');
+    return this.setHeaders(showVersionedPackage(request, opts));
   }
 
   /**
