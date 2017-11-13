@@ -6,14 +6,23 @@
  * @return {Promise} The superagent promise object.
  */
 export default (options, requiredFields) => {
+
+  let opts = options || {};
+
   requiredFields.forEach(function(field) {
-    if (!(field in options)) {
-      throw new Error("missing field: " + field)
+    if (!(field in opts)) {
+      if(field === "token") {
+        throw new Error("packagecloud API token is required: {token: packagecloud_api_token}");
+      } else {
+        throw new Error(`missing field: ${field}`);
+      }
+    } else if (!opts[field]) {
+      throw new Error(`${field} cannot be null or undefined`);
     }
 
     switch(field) {
     case 'repo':
-      if(options.repo.split("/").length < 2) {
+      if(opts.repo.split("/").length < 2) {
         throw new Error("The repo field must be in the format: username/reponame");
       }
       break;

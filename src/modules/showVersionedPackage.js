@@ -1,4 +1,4 @@
-import ValidateOptions from './validateOptions';
+import validateOptions from './validateOptions';
 /**
  * Get package information for RubyGem, Python, and Java packages.
  * @module src/modules/showVersionedPackage
@@ -11,15 +11,16 @@ import ValidateOptions from './validateOptions';
  * @return {Promise} The superagent promise object.
  */
 export default (request, options) => {
-  ValidateOptions(options, ['repo', 'type', 'packageName', 'version']);
+  validateOptions(options, ['repo', 'type', 'packageName', 'version']);
 
-  var repo = options.repo,
+  let repo = options.repo,
       name = options.packageName,
       version = options.version,
       packageType = privateMethods.versionedPackageString(options.type);
-  var url = [options.baseUrl + "/api/v1/repos", repo, "package", packageType, name, version + ".json"].join("/");
 
-  return request.get(url);
+  return request.get([options.baseUrl + "repos",
+                      repo, "package", packageType,
+                      name, version + ".json"].join("/"));
 }
 
 const privateMethods = {

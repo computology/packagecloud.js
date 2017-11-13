@@ -1,4 +1,4 @@
-import ValidateOptions from './validateOptions';
+import validateOptions from './validateOptions';
 /**
  * Get a list of packages from a repository.
  * @module src/modules/listPackages
@@ -9,9 +9,8 @@ import ValidateOptions from './validateOptions';
  */
 export default (request, options) => {
 
-  ValidateOptions(options, ['repo']);
-  
-  var url = [options.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
+  validateOptions(options, ['repo']);
 
-  return request.get(url);  
+  return request.get([options.baseUrl + "repos",
+                      options.repo, "packages.json"].join("/"));
 }

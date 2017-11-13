@@ -18,7 +18,7 @@ export default (request, options) => {
     throw new Error("Expects a filename");
   }
 
-  var url = [options.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
+  let url = [options.baseUrl + "repos", options.repo, "packages.json"].join("/");
 
   return privateMethods.browserUpload(url, request, options);
 }
@@ -29,11 +29,11 @@ const privateMethods = {
    * @private
    */
   browserUpload(url, request, options) {
-    var reader = new FileReader();
+    let reader = new FileReader();
 
     reader.onload = function(e) {
-      var blob = new Blob([this.result], {type: 'application/octet-stream'});
-      var fields = {}
+      let blob = new Blob([this.result], {type: 'application/octet-stream'});
+      let fields = {}
 
       if(options.dist) {
         fields['package[distro_version_id]'] = options.dist

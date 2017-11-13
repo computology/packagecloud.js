@@ -1,5 +1,5 @@
 import PackageCloud from '../../packagecloud';
-const pc = new PackageCloud('test_token');
+const pc = new PackageCloud({token: 'test_token'});
 
 describe("Listing packages in a repository", () => {
   it('should throw an error if repo path is missing', () => {

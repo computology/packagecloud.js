@@ -1,4 +1,4 @@
-import ValidateOptions from './validateOptions';
+import validateOptions from './validateOptions';
 
 /** Create a repository.
  * @module src/modules/createRepository
@@ -9,14 +9,17 @@ import ValidateOptions from './validateOptions';
  */
 export default (request, options) => {
 
-  ValidateOptions(options, ['name']);
+  validateOptions(options, ['name']);
 
-  var privacy = options.privacy ? true : false;
-  var name = options.name;
-  var body = JSON.stringify({'repository': {'name': name,
-                                            'private': privacy }});
-
+  let [privacy, name, body] = [(options.privacy ? true : false),
+                               options.name,
+                               JSON.stringify({
+                                 'repository': {
+                                   'name': name,
+                                   'private': privacy
+                                 }
+                               })];
   return request
-    .post(options.baseUrl + "/api/v1/repos.json")
+    .post(options.baseUrl + "repos.json")
     .send(body);
 }

@@ -1,4 +1,4 @@
-import ValidateOptions from './validateOptions';
+import validateOptions from './validateOptions';
 /**
  * Get package information for Debian and RPM packages.
  * @module src/modules/showPackage
@@ -16,23 +16,19 @@ import ValidateOptions from './validateOptions';
  */
 export default (request, options) => {
 
-  ValidateOptions(options, ['repo', 'type', 'distro', 'distroVersion', 'packageName', 'arch', 'version']);
-  
-  var packageType = options.type,
-      distro = options.distro,
-      distroVersion = options.distroVersion,
-      packageName = options.name,
-      arch = options.arch,
-      pkgVersion = options.version,
-      release = options.release;
+  validateOptions(options, ['repo', 'type', 'distro', 'distroVersion', 'packageName', 'arch', 'version']);
 
-  if(release) {
-    release = release + ".json";
+  let [version, release] = [options.version, options.release];
+
+  if(options.release) {
+    release = options.release + ".json";
   } else {
-    pkgVersion = pkgVersion + ".json";
+    version = options.version + ".json";
   }
-  var url = [options.baseUrl + "/api/v1/repos", options.repo, "package", packageType, distro, options.version,
-             packageName, arch, pkgVersion, release].join("/").replace(/\/+$/, ""); // remove trailing slash
 
-  return request.get(url);
+  return request.get([options.baseUrl + "repos",
+                      options.repo, "package",
+                      options.type, options.distro,
+                      options.distroVersion, options.packageName,
+                      options.arch, version, release].join("/").replace(/\/+$/, ""));
 }

@@ -1,4 +1,4 @@
-import ValidateOptions from './validateOptions';
+import validateOptions from './validateOptions';
 
 /** Show repository information.
  * @module src/modules/getRepository
@@ -9,9 +9,8 @@ import ValidateOptions from './validateOptions';
  */
 export default (request, options) => {
 
-  ValidateOptions(options, ['repo']);
+  validateOptions(options, ['repo']);
 
-  var url = [options.baseUrl + "/api/v1/repos", options.repo + ".json"].join("/");
-
-  return request.get(url);
+  return request.get([options.baseUrl + "repos",
+                      options.repo + ".json"].join("/"));
 }

@@ -1,5 +1,5 @@
 import PackageCloud from '../../packagecloud';
-const pc = new PackageCloud('test_token');
+const pc = new PackageCloud({token: 'test_token'});
 
 describe("RPM and Debian package details", () => {
   it('should throw an error if required field is missing', () => {
@@ -18,6 +18,18 @@ describe("RPM and Debian package details", () => {
         packageName: "packagecloud-test-0.1.x86_64",
         arch: "x86_64", version: "0.1.0", release: "release"})
     }).toThrowError("The repo field must be in the format: username/reponame");
+  });
+
+  it('should throw an error if packageName is null', () => {
+    expect(() => {
+      pc.showPackage({
+        repo: 'saldo/test',
+        type: "deb",
+        distro: "ubuntu",
+        distroVersion: "precise",
+        packageName: null,
+        arch: "x86_64", version: "0.1.0", release: "release"})
+    }).toThrowError("packageName cannot be null or undefined");
   });
 
   it('should return package details with version', () => {

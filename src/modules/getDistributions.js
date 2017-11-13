@@ -5,5 +5,5 @@
  * @return {Promise} The superagent promise object.
  */
 export default (request, options) => {
-  return request.get(options.baseUrl + "/api/v1/distributions.json");
+  return request.get(options.baseUrl + "distributions.json");
 }

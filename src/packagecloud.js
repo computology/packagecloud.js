@@ -9,29 +9,23 @@ import uploadPackage from './modules/uploadPackage';
 import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
+import validateOptions from './modules/validateOptions';
+import * as version from './modules/version';
 
-const helpers = {
-  sanitizeBaseUrl(url) {
-    if(!url) return "";
-    return url.replace(/\/+$/, "");
-  }
-}
-
-/** JavaScript Client for the packagecloud API.
- */
 export default class packagecloud {
-  /** Create the API Client with credentials
-   * @class
-   * @param {string} token - a packagecloud API Token.
-   * @param {string} baseUrl - URL to the packagecloud API.
+  /** JavaScript Client for the packagecloud API.
+   * @class packagecloud
+   * @param {Object} options - Repository options.
+   * @param {string} options.token - a packagecloud API Token.
+   * @param {string} options.baseUrl - &lt;Optional&gt;URL to the packagecloud API.
    */
-  constructor(token, baseUrl) {
-    if(!token) {
-      throw new Error("packagecloud API token is required");
-    }
-
-    this.token = token;
-    this.requestOptions = {baseUrl: helpers.sanitizeBaseUrl(baseUrl)};
+  constructor(options) {
+    validateOptions(options, ['token']);
+    this.token = options.token;
+    this.baseUrl = (options.baseUrl || 'https://packagecloud.io').replace(/\/+$/, "");
+    this.requestOptions = {
+      baseUrl: `${this.baseUrl}/${version.API_VERSION}/`
+    };
   }
 
   /** Create a repository.
@@ -40,8 +34,8 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   createRepository(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return createRepository(request, options)
+    let opts = Object.assign({}, this.requestOptions, options);
+    return createRepository(request, opts)
       .type('json')
       .auth(this.token, '');
   }
@@ -52,8 +46,8 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   showRepository(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return showRepository(request, options)
+    let opts  = Object.assign({}, this.requestOptions, options);
+    return showRepository(request, opts)
       .accept('json')
       .auth(this.token, '');
   }
@@ -84,8 +78,8 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   listPackages(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return listPackages(request, options)
+    let opts = Object.assign({}, this.requestOptions, options);
+    return listPackages(request, opts)
       .accept("json")
       .auth(this.token, '');
   }
@@ -110,8 +104,8 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   uploadPackage(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return uploadPackage(request, options)
+    let opts = Object.assign({}, this.requestOptions, options);
+    return uploadPackage(request, opts)
       .accept("json")
       .auth(this.token, '');
   }
@@ -125,12 +119,12 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   uploadPackageFromBrowser(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return uploadPackageFromBrowser(request, options)
+    let opts = Object.assign({}, this.requestOptions, options);
+    return uploadPackageFromBrowser(request, opts)
       .accept("json")
       .auth(this.token, '');
   }
-  
+
   /**
    * Get package information for Debian and RPM packages.
    * @param {Object} options - Repository options.
@@ -145,12 +139,12 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   showPackage(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return showPackage(request, options)
+    let opts = Object.assign({}, this.requestOptions, options);
+    return showPackage(request, opts)
       .accept('json')
       .auth(this.token, '');
   }
-  
+
   /**
    * Get package information for RubyGem, Python, and Java packages.
    * @param {Object} options - Repository options.
@@ -161,8 +155,8 @@ export default class packagecloud {
    * @return {Promise} The superagent promise object.
    */
   showVersionedPackage(options) {
-    options = Object.assign({}, this.requestOptions, options);
-    return showVersionedPackage(request, options)
+    let opts = Object.assign({}, this.requestOptions, options);
+    return showVersionedPackage(request, opts)
       .accept('json')
       .auth(this.token, '');
   }

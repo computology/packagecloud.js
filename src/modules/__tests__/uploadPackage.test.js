@@ -3,7 +3,7 @@
  */
 
 import PackageCloud from '../../packagecloud';
-const pc = new PackageCloud('test_token');
+const pc = new PackageCloud({token: 'test_token'});
 
 describe("Uploading a package from a NodeJS environment", () => {
   it('should throw an error if repo name is malformatted', () => {

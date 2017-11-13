@@ -22,7 +22,7 @@ export default (request, options) => {
     throw new Error("Expects a filename");
   }
 
-  var url = [options.baseUrl + "/api/v1/repos", options.repo, "packages.json"].join("/");
+  let url = [options.baseUrl + "repos", options.repo, "packages.json"].join("/");
 
 
   return privateMethods.serverUpload(url, request, options);
@@ -34,7 +34,7 @@ const privateMethods = {
    * @private
    */
   serverUpload(url, request, options) {
-    var fields = {};
+    let fields = {};
 
     if(options.dist) {
       fields['package[distro_version_id]'] = options.dist

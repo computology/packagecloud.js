@@ -1,5 +1,5 @@
 import PackageCloud from '../../packagecloud';
-const pc = new PackageCloud('test_token');
+const pc = new PackageCloud({token: 'test_token'});
 
 describe('Show a list of repositories', () => {
   it('should return a JSON list of repositories', () => {

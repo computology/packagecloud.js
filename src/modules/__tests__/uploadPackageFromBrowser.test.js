@@ -1,5 +1,5 @@
 import PackageCloud from '../../packagecloud';
-const pc = new PackageCloud('test_token');
+const pc = new PackageCloud({token: 'test_token'});
 
 describe("Uploading a package from a browser environment", () => {
   it('should warn if calling uploadPackage from a browser-environment', () => {
