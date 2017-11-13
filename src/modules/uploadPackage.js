@@ -40,7 +40,8 @@ const privateMethods = {
       fields['package[distro_version_id]'] = options.dist
     }
 
-    return request.post(url)
+    return request
+      .post(url)
       .field(fields)
       .attach('package[package_file]', options.file, {filename: options.filename});
   }

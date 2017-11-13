@@ -9,6 +9,10 @@ export default (options, requiredFields) => {
 
   let opts = options || {};
 
+  if(typeof opts !== "object") {
+    throw new Error("The packagecloud client expects an object with a token field: {token: api_token}");
+  }
+  
   requiredFields.forEach(function(field) {
     if (!(field in opts)) {
       if(field === "token") {

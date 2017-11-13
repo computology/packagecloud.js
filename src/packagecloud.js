@@ -39,6 +39,7 @@ export default class packagecloud {
   /** Create a repository.
    * @param {Object} options - Repository options.
    * @param {string} options.name - The repository name.
+   * @param {boolean} options.privacy - Set the public or private status.
    * @return {Promise} The superagent promise object.
    */
   createRepository(options) {

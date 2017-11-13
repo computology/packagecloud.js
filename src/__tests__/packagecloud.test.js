@@ -7,10 +7,16 @@ describe("Initialization Actions", () => {
     }).toThrowError("packagecloud API token is required: {token: packagecloud_api_token}");
   });
 
-    it('should throw an error when initializing with no API token', function() {
+  it('should throw an error when initializing with no API token', function() {
     expect(function() {
       new PackageCloud({token: null});
     }).toThrowError("token cannot be null or undefined");
+  });
+
+    it('should throw an error when initializing with incorrect param type', function() {
+    expect(function() {
+      new PackageCloud('token');
+    }).toThrowError("The packagecloud client expects an object with a token field: {token: api_token}");
   });
 
   it('should generate the correct base url', function() {
