@@ -13,11 +13,11 @@ export default [{
     format: 'iife'
   },
   plugins: [
-    babel({"babelrc": false, exclude: "node_modules/**", "presets": [
+    babel({"babelrc": false, exclude: ["package.json", "node_modules/**"], "presets": [
       [
         "env", {
           "modules": false // ES6 modules are handled with rollup,
-        }                  // this tells bable not to transform modules.
+        }                  // this tells babel not to transform modules.
       ]
     ]}), resolve({browser: true}), replace({
       include: '**/node_modules/formidable/lib/**',
@@ -34,5 +34,6 @@ export default [{
     file: 'dist/packagecloud.js',
     format: 'cjs'
   },
+  plugins: [json()],
   external: ['superagent']
 }];
