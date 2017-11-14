@@ -1,4 +1,5 @@
 import request from 'superagent';
+import searchPackages from './modules/searchPackages';
 import createRepository from './modules/createRepository';
 import showRepository from './modules/showRepository';
 import getRepositories from './modules/getRepositories';
@@ -81,6 +82,21 @@ export default class packagecloud {
   listPackages(options) {
     let opts = Object.assign({}, this.requestOptions, options);
     return this.setHeaders(listPackages(request, opts));
+  }
+
+  /**
+   * Search for packages in a repository.
+   * @param {Object} options - Search options.
+   * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
+   * @param {string} options.filename - The query string to search for package filename.
+   * @param {string} options.type - The type of package to search, supports: all, debs, gems, rpms, python, dscs, java.
+   * @param {string} options.dist - Overrides options.type. The name of the distribution the package is intended for. (i.e., ubuntu, el/6)
+   * @param {string} options.perPage - The number of packages to return from the results set, default is 30.
+   * @return {Promise} The superagent promise object.
+   */
+  searchPackages(options) {
+    let opts = Object.assign({}, this.requestOptions, options);
+    return this.setHeaders(searchPackages(request, opts));
   }
 
   /**
