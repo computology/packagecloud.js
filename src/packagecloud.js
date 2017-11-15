@@ -31,13 +31,14 @@ export default class packagecloud {
     };
   }
 
-  setHeaders(request) {
+  _setHeaders(request) {
     return request
       .auth(this.token, '')
       .set({ 'X-packagecloud-JS-Client': VERSION });
   }
 
   /** Create a repository.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.name - The repository name.
    * @param {boolean} options.privacy - Set the public or private status.
@@ -45,47 +46,49 @@ export default class packagecloud {
    */
   createRepository(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(createRepository(request, opts));
+    return this._setHeaders(createRepository(request, opts));
   }
 
   /** Show repository information.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @return {Promise} The superagent promise object.
    */
   showRepository(options) {
     let opts  = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(showRepository(request, opts));
+    return this._setHeaders(showRepository(request, opts));
   }
 
   /** Get a list of repositories for the authenticated user.
+   * @memberof! packagecloud#
    * @return {Promise} The superagent promise object.
    */
   getRepositories() {
-    return this.setHeaders(getRepositories(request, this.requestOptions))
+    return this._setHeaders(getRepositories(request, this.requestOptions))
   }
 
-  /**
-   * Get a list of supported distributions on packagecloud.
+  /** Get a list of supported distributions on packagecloud.
+   * @memberof! packagecloud#
    * @return {Promise} The superagent promise object.
    */
   getDistributions() {
-    return this.setHeaders(getDistributions(request, this.requestOptions));
+    return this._setHeaders(getDistributions(request, this.requestOptions));
   }
 
-  /**
-   * Get a list of packages from a repository.
+  /** Get a list of packages from a repository.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @return {Promise} The superagent promise object.
    */
   listPackages(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(listPackages(request, opts));
+    return this._setHeaders(listPackages(request, opts));
   }
 
-  /**
-   * Search for packages in a repository.
+  /** Search for packages in a repository.
+   * @memberof! packagecloud#
    * @param {Object} options - Search options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @param {string} options.filename - The query string to search for package filename.
@@ -96,46 +99,47 @@ export default class packagecloud {
    */
   searchPackages(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(searchPackages(request, opts));
+    return this._setHeaders(searchPackages(request, opts));
   }
 
-  /**
-   * Delete a package.
-   * @param {string} URL - URL of the package to delete. NOTE: URL is returned from showPackage and showVersionedPackage methods.
+  /** Delete a package.
+   * @memberof! packagecloud#
+   * @param {string} URL - URL of the package to delete. NOTE: The URL for a package can be found in the
+   * showPackage, listPackages and showVersionedPackage methods.
    * @return {Promise} The superagent promise object.
    */
   deletePackage(url) {
-    return this.setHeaders(deletePackage(request, url));
+    return this._setHeaders(deletePackage(request, url));
   }
 
-  /**
-   * Upload a package.
+  /** Upload a package.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
-   * @param {string} options.file - The file to upload, must be a File object (browser). Buffer or ./path/to/file (NodeJS).
+   * @param {string} options.file - The file to be uploaded, must be a Buffer or ./path/to/file.
    * @param {string} options.filename - The filename of the package.
    * @return {Promise} The superagent promise object.
    */
   uploadPackage(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(uploadPackage(request, opts));
+    return this._setHeaders(uploadPackage(request, opts));
   }
 
-  /**
-   * Upload a package from the browser.
+  /** Upload a package from the browser.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
-   * @param {string} options.file - The file to upload, must be a File object (browser). Buffer or ./path/to/file (NodeJS).
+   * @param {string} options.file - The file to be uploaded, must be a File object.
    * @param {string} options.filename - The filename of the package.
    * @return {Promise} The superagent promise object.
    */
   uploadPackageFromBrowser(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(uploadPackageFromBrowser(request, opts));
+    return this._setHeaders(uploadPackageFromBrowser(request, opts));
   }
 
-  /**
-   * Get package information for Debian and RPM packages.
+  /** Get package information for Debian and RPM packages.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @param {string} options.type - The type of package, supported: deb, rpm.
@@ -149,11 +153,11 @@ export default class packagecloud {
    */
   showPackage(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(showPackage(request, opts));
+    return this._setHeaders(showPackage(request, opts));
   }
 
-  /**
-   * Get package information for RubyGem, Python, and Java packages.
+  /** Get package information for RubyGem, Python, and Java packages.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @param {string} options.type - The type of package, supported types: gem, python, java.
@@ -163,11 +167,11 @@ export default class packagecloud {
    */
   showVersionedPackage(options) {
     let opts = Object.assign({}, this.requestOptions, options);
-    return this.setHeaders(showVersionedPackage(request, opts));
+    return this._setHeaders(showVersionedPackage(request, opts));
   }
 
-  /**
-   * Get package information for RubyGem packages.
+  /** Get package information for RubyGem packages.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @param {string} options.name - The name of the gem package.
@@ -179,8 +183,8 @@ export default class packagecloud {
     return this.showVersionedPackage(options);
   }
 
-  /**
-   * Get package information for Python packages.
+  /** Get package information for Python packages.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @param {string} options.name - The name of the gem package.
@@ -192,8 +196,8 @@ export default class packagecloud {
     return this.showVersionedPackage(options);
   }
 
-  /**
-   * Get package information for Java packages.
+  /** Get package information for Java packages.
+   * @memberof! packagecloud#
    * @param {Object} options - Repository options.
    * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
    * @param {string} options.name - The name of the gem package.

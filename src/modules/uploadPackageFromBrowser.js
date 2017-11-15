@@ -3,7 +3,7 @@
  * @module src/modules/uploadPackageFromBrowser
  * @param {Object} options - Repository options.
  * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
- * @param {string} options.file - The file to upload, must be a File object (browser). Buffer or ./path/to/file (NodeJS).
+ * @param {string} options.file - The file to be uploaded, must be a File object.
  * @param {string} options.filename - The filename of the package.
  * @return {Promise} The superagent promise object.
  */
