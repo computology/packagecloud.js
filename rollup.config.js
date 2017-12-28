@@ -5,6 +5,8 @@ import commonjs    from 'rollup-plugin-commonjs';
 import replace     from "rollup-plugin-replace"
 import nodeGlobals from "rollup-plugin-node-globals"
 import json        from "rollup-plugin-json"
+import uglify from 'rollup-plugin-uglify';
+import { minify } from 'uglify-es';
 
 export default [{
   input: 'src/main.browser.js',
@@ -26,7 +28,8 @@ export default [{
     json(),
     commonjs({include: 'node_modules/**',
               namedExports: {'superagent': [ 'superagent' ]} }),
-    nodeGlobals()
+    nodeGlobals(),
+    uglify()
   ]
 }, {
   input: 'src/main.js',
@@ -34,6 +37,6 @@ export default [{
     file: 'dist/packagecloud.js',
     format: 'cjs'
   },
-  plugins: [json()],
+  plugins: [json(), uglify({}, minify)],
   external: ['superagent']
 }];
