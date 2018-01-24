@@ -5,6 +5,7 @@ import validateOptions from './validateOptions';
  * @param {Object} superagent request object.
  * @param {Object} options - Repository options.
  * @param {string} options.name - The repository name.
+ * @param {boolean} options.privacy - Set the public or private status.
  * @return {Promise} The superagent promise object.
  */
 export default (request, options) => {
