@@ -29,23 +29,14 @@ const privateMethods = {
    * @private
    */
   browserUpload(url, request, options) {
-    let reader = new FileReader();
+    let fields = {}
 
-    reader.onload = function(e) {
-      let blob = new Blob([this.result], {type: 'application/octet-stream'});
-      let fields = {}
+    if(options.dist) {
+      fields["package[distro_version_id]"] = options.dist
+    }
 
-      if(options.dist) {
-        fields['package[distro_version_id]'] = options.dist
-      }
-
-      request.post(url)
-        .field(fields)
-        .attach('package[package_file]', blob, {filename: options.filename});
-    };
-
-    reader.readAsArrayBuffer(options.file);
-
-    return request.post(url);
+    return request.post(url)
+      .field(fields)
+      .attach("package[package_file]", options.file, {filename: options.filename});
   }
 }

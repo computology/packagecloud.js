@@ -1,6 +1,6 @@
 {
   "name": "packagecloud",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript API client for packagecloud.io",
   "repository": "https://github.com/computology/packagecloud.js.git",
   "author": "Armando Canals",
@@ -32,7 +32,7 @@
     "uglify-es": "^3.1.9"
   },
   "dependencies": {
-    "superagent": "^3.8.0"
+    "superagent": "^3.8.3"
   },
   "main": "dist/packagecloud.js",
   "browser": {
