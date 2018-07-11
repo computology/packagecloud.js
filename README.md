@@ -17,6 +17,7 @@ JavaScript library for communicating with the [packagecloud.io](https://packagec
 * [List Debian and RPM Packages](https://packagecloud.io/docs/api#resource_packages_method_show)
 * [List RubyGem, Python, and Java Packages](https://packagecloud.io/docs/api#resource_packages_method_gem_show)
 * [Upload Package](https://packagecloud.io/docs/api#resource_packages_method_create)
+* [Promote Package](https://packagecloud.io/docs/api#resource_packages_method_promote)
 
 ## Installation
 
@@ -61,6 +62,6 @@ pc.getDistribution().then(success, error)
 
 ## Copyright
 
-Copyright (c) 2017 Computology, LLC
+Copyright (c) 2018 Computology, LLC
 
 See LICENSE file for details.
