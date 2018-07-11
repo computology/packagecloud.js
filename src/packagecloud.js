@@ -104,8 +104,9 @@ export default class packagecloud {
 
   /** Delete a package.
    * @memberof! packagecloud#
-   * @param {string} URL - URL of the package to delete. NOTE: The URL for a package can be found in the
+   * @param {string} options.url - URL of the package to delete. NOTE: The URL for a package can be found in the
    * showPackage, listPackages and showVersionedPackage methods.
+   * @param {string} options.scope - &lt;Optional&gt; Scope for Node packages.
    * @return {Promise} The superagent promise object.
    */
   deletePackage(url) {
