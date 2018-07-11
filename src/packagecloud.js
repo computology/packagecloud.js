@@ -9,6 +9,7 @@ import listPackages from './modules/listPackages';
 import deletePackage from './modules/deletePackage';
 import uploadPackage from './modules/uploadPackage';
 import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
+import promotePackage from './modules/promotePackage';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
 import validateOptions from './modules/validateOptions';
@@ -146,6 +147,12 @@ export default class packagecloud {
   uploadPackageFromBrowser(options) {
     let opts = Object.assign({}, this.requestOptions, options);
     return this._setHeaders(uploadPackageFromBrowser(request, opts));
+  }
+  /** Promote package.
+   */
+  promotePackage(options) {
+    let opts = Object.assign({}, this.requestOptions, options);
+    return this._setHeaders(promotePackage(request, opts));
   }
 
   /** Get package information for Debian and RPM packages.
