@@ -2,7 +2,6 @@ import request from 'superagent';
 import searchPackages from './modules/searchPackages';
 import createRepository from './modules/createRepository';
 import showRepository from './modules/showRepository';
-import getCurrentUserInfo from './modules/getCurrentUserInfo';
 import getRepositories from './modules/getRepositories';
 import getDistributions from './modules/getDistributions';
 import listPackages from './modules/listPackages';
@@ -60,14 +59,6 @@ export default class packagecloud {
   showRepository(options) {
     let opts  = Object.assign({}, this.requestOptions, options);
     return this._setHeaders(showRepository(request, opts));
-  }
-
-  /** Get the authenticated user's information
-   * @memberof! packagecloud#
-   * @return {Promise} The superagent promise object.
-   */
-  getCurrentUserInfo() {
-    return this._setHeaders(getCurrentUserInfo(request, this.requestOptions))
   }
 
   /** Get a list of repositories for the authenticated user.

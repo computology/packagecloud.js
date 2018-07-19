@@ -1,6 +1,6 @@
 {
   "name": "packagecloud",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "JavaScript API client for packagecloud.io",
   "repository": "https://github.com/computology/packagecloud.js.git",
   "author": "Armando Canals",
