@@ -36,12 +36,12 @@ In the browser:
 //= require packagecloud/dist/packagecloud.browser.js
 ...
 // main.js
-var pc = new PackageCloud('your_api_token', 'https://packagecloud.io');
+var pc = new packagecloud({token:'your_api_token', baseUrl:'https://packagecloud.io'});
 ```
 Or in a NodeJS environment:
 ```javascript
 import PackageCloud from "packagecloud";
-const pc = new PackageCloud('your_api_token', 'https://packagecloud.io');
+const pc = new packagecloud({token:'your_api_token', baseUrl:'https://packagecloud.io'});
 ```
 
 ## Result objects
