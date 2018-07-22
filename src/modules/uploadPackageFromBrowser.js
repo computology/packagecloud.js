@@ -29,14 +29,14 @@ const privateMethods = {
    * @private
    */
   browserUpload(url, request, options) {
-    let fields = {}
+    let fields = {filename: options.filename};
 
     if(options.dist) {
-      fields["package[distro_version_id]"] = options.dist
+      fields["package[distro_version_id]"] = options.dist;
     }
 
     return request.post(url)
       .field(fields)
-      .attach("package[package_file]", options.file, {filename: options.filename});
+      .attach("package[package_file]", options.file);
   }
 }
