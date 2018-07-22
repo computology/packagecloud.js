@@ -9,10 +9,4 @@ describe('Deleting a package', () => {
     }
     return pc.deletePackage({url: '/delete_url'}).then(resolve);
   })
-
-  it('should throw and error if no URL is passed', () => {
-    expect(() => {
-      pc.deletePackage()
-    }).toThrowError("Missing URL from options");
-  })
 });

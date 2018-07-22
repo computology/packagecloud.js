@@ -105,13 +105,17 @@ export default class packagecloud {
 
   /** Delete a package.
    * @memberof! packagecloud#
-   * @param {string} options.url - URL of the package to delete. NOTE: The URL for a package can be found in the
-   * showPackage, listPackages and showVersionedPackage methods.
-   * @param {string} options.scope - &lt;Optional&gt; Scope for Node packages.
+   * @param {Object} options - Promote package options.
+   * @param {string} options.repository - The fully-qualified name for the source repository, i.e., 'username/sourcerepo'.
+   * @param {string} options.distroFqname - The fully-qualified distribution/version, i.e., 'ubuntu/precise'.
+   * @param {string} options.group - The name of the group this package belongs to for Java packages.
+   * @param {string} options.scope - The package scope. Required if deleting a scoped Node.JS package
+   * @param {string} options.filename - The filename of the package.
    * @return {Promise} The superagent promise object.
    */
-  deletePackage(url) {
-    return this._setHeaders(deletePackage(request, url));
+  deletePackage(options) {
+    let opts  = Object.assign({}, this.requestOptions, options);
+    return this._setHeaders(deletePackage(request, opts));
   }
 
   /** Upload a package.
