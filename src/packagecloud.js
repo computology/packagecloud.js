@@ -7,7 +7,6 @@ import getDistributions from './modules/getDistributions';
 import listPackages from './modules/listPackages';
 import deletePackage from './modules/deletePackage';
 import uploadPackage from './modules/uploadPackage';
-import uploadPackageFromBrowser from './modules/uploadPackageFromBrowser';
 import promotePackage from './modules/promotePackage';
 import showPackage from './modules/showPackage';
 import showVersionedPackage from './modules/showVersionedPackage';
@@ -131,18 +130,6 @@ export default class packagecloud {
     return this._setHeaders(uploadPackage(request, opts));
   }
 
-  /** Upload a package from the browser.
-   * @memberof! packagecloud#
-   * @param {Object} options - Repository options.
-   * @param {string} options.repo - The fully-qualified repository name, i.e., 'username/reponame'.
-   * @param {string} options.file - The file to be uploaded, must be a File object.
-   * @param {string} options.filename - The filename of the package.
-   * @return {Promise} The superagent promise object.
-   */
-  uploadPackageFromBrowser(options) {
-    let opts = Object.assign({}, this.requestOptions, options);
-    return this._setHeaders(uploadPackageFromBrowser(request, opts));
-  }
   /** Promote package.
    * @memberof! packagecloud#
    * @param {Object} options - Promote package options.
