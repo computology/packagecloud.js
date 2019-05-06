@@ -15,9 +15,11 @@ export default [{
     format: 'iife'
   },
   plugins: [
+    commonjs({include: 'node_modules/**',
+              namedExports: {'superagent': [ 'superagent' ]} }),
     babel({"babelrc": false, exclude: ["package.json", "node_modules/**"], "presets": [
       [
-        "env", {
+        "@babel/env", {
           "modules": false // ES6 modules are handled with rollup,
         }                  // this tells babel not to transform modules.
       ]
@@ -26,8 +28,6 @@ export default [{
       values: { 'global.GENTLY': 'false' }
     }), builtins(),
     json(),
-    commonjs({include: 'node_modules/**',
-              namedExports: {'superagent': [ 'superagent' ]} }),
     nodeGlobals(),
     uglify()
   ]

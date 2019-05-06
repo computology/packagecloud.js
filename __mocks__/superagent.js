@@ -13,8 +13,8 @@ let mockResponse = {
     return true; 
   },
   body: { },
-  get: jest.genMockFunction(),
-  toError: jest.genMockFunction()
+  get: jest.fn(),
+  toError: jest.fn()
 };
 
 let Request = {
