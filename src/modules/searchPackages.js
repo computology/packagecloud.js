@@ -18,7 +18,7 @@ export default (request, options) => {
   let payload = { 'q': options.filename || '',
                   'filter': options.type,
                   'dist': options.dist,
-                  'perPage': options.perPage };
+                  'per_page': options.perPage };
 
   return request
     .get([options.baseUrl + "repos", options.repo, "search.json"].join("/"))
